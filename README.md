@@ -2,12 +2,12 @@
 Goku is a Python Based Downloader with a large variety of files including Movies, Games, Tv serials etc
 
 **Requirements**<br/>
-	<li>Python3</li><br/>
+	<li>Python3</li>
 	<li>requirments.txt</li><br/>
 
 **OS**<br/>
 	<li> Windows</li>
-	<li> Kali</li><br/>
+	<li> Kali</li>
 	<li> * Not tested on MAC (But it should work)</li><br/>
   
 **Installation**
