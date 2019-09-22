@@ -7,7 +7,7 @@ Goku is a Python Based Downloader with a large variety of files including Movies
 
 **OS**<br/>
 	<li> Windows</li>
-	<li> Kali</li>
+	<li> Linux</li>
 	<li> * Not tested on MAC (But it should work)</li><br/>
   
 **Installation**
