@@ -10,7 +10,7 @@ from colors import *
 from time import sleep
 
 
-__version__ = 1.0
+__version__ = 1.01
 __author__ = 'Humza Malik'
 
 # Globals
@@ -33,13 +33,13 @@ def main():
 
 
 def banner(version, author):
-	print(cyan("	   _____       _          "))
-	print(cyan("	  / ____|     | |         "))
-	print(cyan("	 | |  __  ___ | | ___   _ "))
-	print(cyan("	 | | |_ |/ _ \| |/ / | | |"))
-	print(cyan("	 | |__| | (_) |   <| |_| |"))
-	print(cyan("	  \_____|\___/|_|\_\\\__,_|"))
-	print(yellow(f'\t Version: {version}\n\t By: {author}'))
+	print(blink2("\t\t  _____       _          ", fg='cyan'))
+	print(blink("\t\t / ____|     | |         ", fg='red'))
+	print(blink2("\t\t| |  __  ___ | | ___   _ ", fg='cyan'))
+	print(blink("\t\t| | |_ |/ _ \| |/ / | | |", fg='green'))
+	print(blink2("\t\t| |__| | (_) |   <| |_| |", fg='cyan'))
+	print(blink("\t\t \_____|\___/|_|\_\\\__,_|", fg='magenta'))
+	print(yellow(f'\t\tVersion: {version}\n\t\tBy: {author}'))
 
 
 def cat_page(base_url, cat_url= ''):
@@ -71,13 +71,18 @@ def cat_page(base_url, cat_url= ''):
 	except:
 		print(er_pg_parse)
 		exit_msg()
-	table_info = fix_parent_fix(cat_url, table_info)
+	table_info = fix_parent_file(cat_url, table_info)
 	while True:
 		ask_cat = input(green('Enter Sr. ? '))
 		if ask_cat.lower().strip() in ['e', 'exit']:
 			exit_msg()
-		if ask_cat.lower().strip() in ['h', 'help']:
+		if ask_cat.lower().strip() in ['h', 'help', '?']:
 			help_msg()
+			continue
+		if ask_cat.lower().strip() in ['a', 'all']:
+			for row in table_info:
+				if row[1].lower().strip() == 'file':
+					downit(base_url, row[-1], row[2])
 			continue
 		if ask_cat.isdigit():
 			for row in table_info:
@@ -121,15 +126,17 @@ def downit(base_url, cat_url, filename):
 	link = base_url + cat_url
 	print(f'{cyan("[File] ")}{blue(file_name)}')
 	sep = spr()
-	if not os.path.exists(f'Downloads'):
-		os.mkdir('Downloads')
-	file_name = f'Downloads{sep}{file_name}'
+	path = 'Downloads'
+	if not os.path.exists(path):
+		os.mkdir(path)
+	file_name = f'{path}{sep}{file_name}'
 	try:
 		with DownloadProgressBar(unit='B', unit_scale=True,
 								 miniters=1, desc=blue('[ Downloading ]')) as t:
 			urllib.request.urlretrieve(link, filename=file_name, reporthook=t.update_to)
 	except KeyboardInterrupt:
 		print(aborted)
+		line()
 		return
 	print(cyan('[DownloadComplete]'))
 	line()
@@ -170,7 +177,7 @@ def print_table(tabletag):
 	return table_info
 
 
-def fix_parent_fix(cat_url, table_info):
+def fix_parent_file(cat_url, table_info):
 	for row in table_info:
 		if row[-1] == '..':
 			row[-1] = last_url(cat_url)
